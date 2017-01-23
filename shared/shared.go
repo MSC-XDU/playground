@@ -26,7 +26,7 @@ func AddImages(ref string) {
 }
 
 var ResourcesConfig = container.Resources{
-	Memory:    40 * 1024 * 1024,
+	Memory:    60 * 1024 * 1024,
 	CPUPeriod: 1000000,
 	CPUQuota:  200000,
 }

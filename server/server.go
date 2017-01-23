@@ -16,9 +16,9 @@ func Start() {
 	router.HandleFunc("/go", wrapMiddleware(golang.ServerHandle)).Methods(http.MethodPost)
 	router.HandleFunc("/python", wrapMiddleware(python.ServerHandle)).Methods(http.MethodPost)
 	router.HandleFunc("/c", wrapMiddleware(c.ServerHandle)).Methods(http.MethodPost)
-	router.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		http.ServeFile(w, req, "test.html")
-	}).Methods(http.MethodGet)
+	//router.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+	//	http.ServeFile(w, req, "test.html")
+	//}).Methods(http.MethodGet)
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.ListenAndServe(":9090", router)
 }
