@@ -23,7 +23,6 @@ var (
 	defaultContainerConfig = container.Config{
 		Image:           imageName,
 		Cmd:             []string{"python", sourceFileName},
-		Volumes:         map[string]struct{}{"/source.py": {}},
 		NetworkDisabled: true,
 	}
 )

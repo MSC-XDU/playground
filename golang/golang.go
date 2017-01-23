@@ -23,7 +23,6 @@ var (
 	defaultContainerConfig = container.Config{
 		Image:           imageName,
 		Cmd:             []string{"go", "run", sourceFileName},
-		Volumes:         map[string]struct{}{"/source.go": {}},
 		NetworkDisabled: true,
 	}
 )
