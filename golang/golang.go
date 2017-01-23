@@ -41,7 +41,7 @@ func createContainer(ctx context.Context, tmp *os.File) (string, error) {
 	hostConfig := &container.HostConfig{
 		Binds:      []string{fmt.Sprintf("%s:%s", tmp.Name(), sourceFileName)},
 		Resources:  shared.ResourcesConfig,
-		AutoRemove: true,
+		//AutoRemove: true,
 	}
 	resp, err := cli.ContainerCreate(ctx, &defaultContainerConfig, hostConfig, nil, "")
 	if err != nil {

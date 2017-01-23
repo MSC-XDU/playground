@@ -9,20 +9,27 @@ import (
 	"github.com/MSC-XDU/playground/shared"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
+	"bufio"
+	"encoding/json"
 )
 
 var cli *client.Client
 
 func pullImage(ctx context.Context, ref string, wg *sync.WaitGroup) {
 	var err error
-	check := func() {
-		if err != nil {
-			log.Panic(err)
-		}
-		log.Printf("%s pull 完成", ref)
+	out, err := cli.ImagePull(ctx, ref, types.ImagePullOptions{})
+	if err != nil {
+		log.Panic(err)
 	}
-	_, err = cli.ImagePull(ctx, ref, types.ImagePullOptions{})
-	check()
+	defer out.Close()
+	sc := bufio.NewScanner(out)
+	for sc.Scan() {
+		var prog interface{}
+		json.Unmarshal(sc.Bytes(), &prog)
+		if prog.(map[string]interface{})["status"].(string) != "Downloading" {
+			log.Printf("%v\n", prog)
+		}
+	}
 	wg.Done()
 }
 
