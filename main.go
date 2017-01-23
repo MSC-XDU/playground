@@ -5,12 +5,13 @@ import (
 	"log"
 	"sync"
 
+	"bufio"
+	"encoding/json"
+
 	"github.com/MSC-XDU/playground/server"
 	"github.com/MSC-XDU/playground/shared"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
-	"bufio"
-	"encoding/json"
 )
 
 var cli *client.Client

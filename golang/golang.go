@@ -39,8 +39,8 @@ func init() {
 
 func createContainer(ctx context.Context, tmp *os.File) (string, error) {
 	hostConfig := &container.HostConfig{
-		Binds:      []string{fmt.Sprintf("%s:%s", tmp.Name(), sourceFileName)},
-		Resources:  shared.ResourcesConfig,
+		Binds:     []string{fmt.Sprintf("%s:%s", tmp.Name(), sourceFileName)},
+		Resources: shared.ResourcesConfig,
 		//AutoRemove: true,
 	}
 	resp, err := cli.ContainerCreate(ctx, &defaultContainerConfig, hostConfig, nil, "")
