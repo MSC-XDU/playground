@@ -110,10 +110,7 @@ func bloomHash(raw []byte) [bloomK]uint32 {
 	return *result
 }
 
-// Bloom Filter 查询操作
-func bloomMightContains(hashes [bloomK]uint32) (bool, error) {
-	conn := bfPool.Get()
-	defer conn.Close()
+func mightContains(conn redis.Conn, hashes *[bloomK]uint32) (bool, error) {
 	var err error
 
 	// 为了方便插入的实现，故不在事务中查询
@@ -142,6 +139,13 @@ func bloomMightContains(hashes [bloomK]uint32) (bool, error) {
 	return true, nil
 }
 
+// Bloom Filter 查询操作
+func bloomMightContains(hashes [bloomK]uint32) (bool, error) {
+	conn := bfPool.Get()
+	defer conn.Close()
+	return mightContains(conn, &hashes)
+}
+
 // Bloom Filter 添加操作
 func bloomAdd(hashes [bloomK]uint32) error {
 	conn := bfPool.Get()
@@ -157,7 +161,7 @@ func bloomAdd(hashes [bloomK]uint32) error {
 			}
 		}
 
-		e, err := bloomMightContains(hashes)
+		e, err := mightContains(conn, &hashes)
 		if err != nil {
 			return err
 		}
