@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>西电微软学生俱乐部 Playground</title>
+    <link href="//cdn.bootcss.com/codemirror/5.23.0/codemirror.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/codemirror/5.23.0/theme/monokai.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/editor.css" rel="stylesheet">
+</head>
+<body>
+<div class="editor-container">
+    <textarea id="code">{{.Code}}</textarea>
+</div>
+<div class="result-container">
+    <div class="result-btn-grp">
+        <span id="btns">
+            {{if .ModeSelect}}
+            <select id="mode-select">
+                <option selected>Go</option>
+                <option>Python</option>
+                <option>C</option>
+            </select>
+            {{- end}}
+            <button class="btn btn-green" id="run-code">运行</button>
+            <button class="btn btn-blue" id="share-code">分享</button>
+        </span>
+        <i id="menu-bar" class="fa fa-bars" aria-hidden="true"></i>
+    </div>
+    <pre id="result"></pre>
+</div>
+
+<span style="display: none" id="default-mode">{{.Mode}}</span>
+
+<script src="//cdn.bootcss.com/codemirror/5.23.0/codemirror.min.js"></script>
+<script src="//cdn.bootcss.com/codemirror/5.23.0/mode/go/go.min.js"></script>
+<script src="//cdn.bootcss.com/codemirror/5.23.0/mode/python/python.min.js"></script>
+<script src="//cdn.bootcss.com/codemirror/5.23.0/mode/clike/clike.min.js"></script>
+<script src="/static/editor.js"></script>
+</body>
+</html>
