@@ -1,0 +1,35 @@
+version: "2"
+
+services:
+  app:
+    build: .
+    ports:
+      - "9090:80"
+    links:
+      - docker
+      - redis
+      - db
+    volumes:
+      - "/tmp:/tmp:rw"
+    env_file: ./env
+    environment:
+      - "DOCKER_HOST=tcp://docker:2375"
+      - "DOCKER_API_VERSION=1.24"
+      - "SHARE_ID_REDIS_ADDR=redis:6379"
+      - "DB_ADDR=db:3306"
+    restart: always
+
+
+  docker:
+    command: "--storage-driver=overlay --registry-mirror=http://1b30c8e9.m.daocloud.io"
+    image: docker:1.12.6-dind
+    volumes:
+          - "/tmp:/tmp:rw"
+    privileged: true
+
+  redis:
+    image: redis:3
+
+  db:
+    image: mysql
+    env_file: ./env
