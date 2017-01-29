@@ -160,6 +160,7 @@ func bloomAdd(hashes [bloomK]uint32) error {
 				return err
 			}
 		}
+		conn.Do("")
 
 		e, err := mightContains(conn, &hashes)
 		if err != nil {

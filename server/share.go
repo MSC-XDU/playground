@@ -56,7 +56,7 @@ var (
 type LangType uint8
 
 const (
-	TypeGo  LangType = iota
+	TypeGo LangType = iota
 	TypePy
 	TypeC
 	TypeErr
@@ -161,6 +161,7 @@ func SaveCodeHandle(w http.ResponseWriter, req *http.Request) {
 
 	url, err := SaveCode(code, langType)
 	if err != nil {
+		log.Printf("保存错误: %s", err.Error())
 		http.Error(w, "服务器错误，稍后尝试", http.StatusInternalServerError)
 		return
 	}
