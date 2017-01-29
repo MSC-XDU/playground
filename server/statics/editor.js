@@ -53,14 +53,16 @@ function runCode(code, type) {
     var data = new FormData();
     data.append("code", code);
     var result = document.getElementById("result");
-    result.textContent = "正在连接服务器";
+    result.textContent = "正在连接服务器\n因为服务器性能不足，一次运行约需等待 1 - 3 秒，请耐心等待";
 
     var http = new XMLHttpRequest();
     http.open("POST", baseURL + "/run/" + type);
     http.onreadystatechange = function () {
-        if (http.readyState == 4) {
+        if (http.readyState == 4 && http.status >= 200 && http.status < 300) {
             hideMenu();
             result.textContent = http.responseText
+        } else {
+            result.textContent = "服务器错误"
         }
     };
     http.send(data)
@@ -78,8 +80,10 @@ function shareCode(code, type) {
     http.open("POST", baseURL + "/share");
     http.responseType = "json";
     http.onreadystatechange = function () {
-        if (http.readyState == 4) {
+        if (http.readyState == 4 && http.status >= 200 && http.status < 300) {
             result.textContent = "该代码的分享连接是   " + baseURL + "/share/" + http.response["url"] + "\n快去给别人展示一下";
+        } else {
+            result.textContent = http.statusText;
         }
     };
     http.send(data)
