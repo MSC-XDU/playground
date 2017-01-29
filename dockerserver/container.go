@@ -97,6 +97,7 @@ func (c Container) remove() {
 	if c.ClientVersion() < "1.25" {
 		err := c.ContainerRemove(context.Background(), c.Id, types.ContainerRemoveOptions{
 			RemoveVolumes: true,
+			Force:         true,
 		})
 		if err != nil {
 			log.Println(err)

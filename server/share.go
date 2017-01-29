@@ -94,11 +94,13 @@ func (t LangType) String() string {
 func saveCode(url, code string, t LangType) error {
 	id, err := share.IDtoI(url)
 	if err != nil {
+		log.Printf("分享保存代码ID错误: %s", err.Error())
 		return err
 	}
 
 	_, err = db.Exec("INSERT INTO code_share (id, code, type, url) VALUES (?, ?, ?, ?)", id, code, t, url)
 	if err != nil {
+		log.Printf("分享保存代码数据库错误: %s", err.Error())
 		return err
 	}
 
@@ -119,12 +121,15 @@ func SaveCode(code string, t LangType) (string, error) {
 func GetCode(url string) (code string, t LangType, err error) {
 	id, err := share.IDtoI(url)
 	if err != nil {
+		log.Printf("分享获取代码ID错误: %s", err.Error())
 		return "", 0, err
 	}
 
 	result := db.QueryRow("SELECT code, type FROM code_share WHERE id = ?", id)
 	err = result.Scan(&code, &t)
-
+	if err != nil {
+		log.Printf("分享获取代码数据库错误: %s", err.Error())
+	}
 	return
 }
 
