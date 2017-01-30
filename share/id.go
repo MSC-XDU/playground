@@ -203,8 +203,13 @@ func bloomAdd(hashes [bloomK]uint32) error {
 // 产生随机 ID
 func NewID() (string, error) {
 	var raw [randBytes]byte
+	var i uint64
 	for {
 		rand.Read(raw[:])
+		i = bytesToI(raw)
+		if i == 0 {
+			continue
+		}
 		err := bloomAdd(bloomHash(raw[:]))
 		if err != nil {
 			if err != ErrKeyExist {
@@ -214,7 +219,7 @@ func NewID() (string, error) {
 		}
 		break
 	}
-	return ItoID(bytesToI(raw))
+	return ItoID(i)
 }
 
 // 随机 bytes 转化成 uint64。
@@ -237,10 +242,10 @@ func ItoID(u uint64) (string, error) {
 			return "", errors.New("out of range")
 		}
 		q := u / 62
-		a[i] = digits[u-q*62]
+		a[i] = digits[u - q*62]
 		u = q
 	}
-	return string(a[i+1:]), nil
+	return string(a[i + 1:]), nil
 }
 
 // 将 ID  转化成 uint64
