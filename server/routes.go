@@ -20,7 +20,7 @@ var defaultMiddleware = []Middleware{
 
 // Templates
 var (
-	editorTmpl = template.Must(template.New("editor.html").ParseFiles("./server/statics/editor.html"))
+	editorTmpl = template.Must(template.New("editor.html").ParseFiles("assets/templates/editor.html"))
 )
 
 type editorData struct {
@@ -41,7 +41,7 @@ func Start(client *client.Client) {
 		editorTmpl.Execute(w, editorData{Code: "", Mode: "Go", ModeSelect: true})
 	})
 
-	r.PathPrefix("/static").Handler(http.StripPrefix("/static", http.FileServer(http.Dir("./server/statics"))))
+	r.PathPrefix("/static").Handler(http.StripPrefix("/static", http.FileServer(http.Dir("assets/statics"))))
 
 	// 代码运行路由配置
 	factory := TempFileContainerFactory{

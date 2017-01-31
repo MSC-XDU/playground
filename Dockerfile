@@ -9,6 +9,10 @@ COPY . $SRC_DIR
 
 WORKDIR $SRC_DIR
 
+RUN go install
+
+COPY assets/ $GOPATH/bin/assets/
+
 EXPOSE 80
 
-CMD go run main.go
+ENTRYPOINT playground

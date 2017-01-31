@@ -40,6 +40,7 @@ func (c Container) Attach(ctx context.Context) (types.HijackedResponse, error) {
 	}
 
 	return c.ContainerAttach(ctx, c.Id, types.ContainerAttachOptions{
+		Logs:   true,
 		Stream: true,
 		Stderr: true,
 		Stdout: true,
