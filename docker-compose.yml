@@ -33,3 +33,4 @@ services:
   db:
     image: mysql
     env_file: ./env
+    command: "--performance-schema=0"

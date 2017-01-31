@@ -30,8 +30,12 @@ type editorData struct {
 }
 
 func Start(client *client.Client) {
-
 	r := mux.NewRouter()
+
+	r.HandleFunc("/ping", func(w http.ResponseWriter, req *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte{})
+	})
 
 	r.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
 		editorTmpl.Execute(w, editorData{Code: "", Mode: "Go", ModeSelect: true})
