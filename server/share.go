@@ -56,26 +56,28 @@ var (
 type LangType uint8
 
 const (
-	TypeGo LangType = iota
+	TypeGo  LangType = iota
 	TypePy
 	TypeC
+	TypePy2
 	TypeErr
 )
 
-func ItoLangType(t string) (LangType, error) {
-	var lt LangType
+func ItoLangType(t string) (lt LangType, err error) {
 	switch t {
 	case "go", "golang", "Go", "Golang":
 		lt = TypeGo
 	case "python", "Py", "Python", "py":
 		lt = TypePy
+	case "python2", "Py2", "Python2", "py2":
+		lt = TypePy2
 	case "c", "C":
 		lt = TypeC
 	default:
-		return TypeErr, ErrBadType
+		err = ErrBadType
 	}
 
-	return lt, nil
+	return
 }
 
 func (t LangType) String() string {

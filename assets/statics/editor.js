@@ -5,13 +5,15 @@
     var urlMaps = {
         "Go": "go",
         "Python": "py",
-        "C": "c"
+        "C": "c",
+        "Python2": "py2"
     };
 
     var modeMaps = {
         "Go": "text/x-go",
-        "Python": "python",
-        "C": "text/x-csrc"
+        "Python": {name: "python", version: 3},
+        "C": "text/x-csrc",
+        "Python2": {name: "python", version: 2}
     };
 
     var defaultMode = document.getElementById("default-mode").textContent;
@@ -54,13 +56,13 @@
         var data = new FormData();
         data.append("code", code);
         var result = document.getElementById("result");
+        hideMenu();
         result.textContent = "正在连接服务器\n约需 1 - 3 秒，请耐心等待";
 
         var http = new XMLHttpRequest();
         http.open("POST", baseURL + "/run/" + type);
         http.onreadystatechange = function () {
             if (http.readyState == 4 && http.status >= 200 && http.status < 300) {
-                hideMenu();
                 result.innerHTML = ansi_up.ansi_to_html(http.responseText)
             } else {
                 result.textContent = "服务器错误"

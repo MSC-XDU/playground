@@ -12,6 +12,7 @@ import (
 	"github.com/MSC-XDU/playground/lang/python"
 	"github.com/docker/docker/client"
 	"github.com/gorilla/mux"
+	"github.com/MSC-XDU/playground/lang/python2"
 )
 
 var defaultMiddleware = []Middleware{
@@ -53,6 +54,7 @@ func Start(client *client.Client) {
 	run.HandleFunc("/go", WrapMiddleware(defaultMiddleware, factory.NewHandleFunc(golang.NewRunCreator)))
 	run.HandleFunc("/py", WrapMiddleware(defaultMiddleware, factory.NewHandleFunc(python.NewRunCreator)))
 	run.HandleFunc("/c", WrapMiddleware(defaultMiddleware, factory.NewHandleFunc(c.NewRunCreator)))
+	run.HandleFunc("/py2", WrapMiddleware(defaultMiddleware, factory.NewHandleFunc(python2.NewRunCreator)))
 
 	// 分享路由配置
 	r.HandleFunc("/share/{id:[0-9a-zA-Z]+}", GetCodeHandle).Methods("GET")
