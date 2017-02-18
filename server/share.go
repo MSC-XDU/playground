@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"os"
@@ -56,7 +57,7 @@ var (
 type LangType uint8
 
 const (
-	TypeGo  LangType = iota
+	TypeGo LangType = iota
 	TypePy
 	TypeC
 	TypePy2
@@ -93,14 +94,14 @@ func (t LangType) String() string {
 	}
 }
 
-func saveCode(url, code string, t LangType) error {
+func saveCode(ctx context.Context, url, code string, t LangType) error {
 	id, err := share.IDtoI(url)
 	if err != nil {
 		log.Printf("分享保存代码ID错误: %s", err.Error())
 		return err
 	}
 
-	_, err = db.Exec("INSERT INTO code_share (id, code, type, url) VALUES (?, ?, ?, ?)", id, code, t, url)
+	_, err = db.ExecContext(ctx, "INSERT INTO code_share (id, code, type, url) VALUES (?, ?, ?, ?)", id, code, t, url)
 	if err != nil {
 		log.Printf("分享保存代码数据库错误: %s", err.Error())
 		return err
@@ -110,24 +111,24 @@ func saveCode(url, code string, t LangType) error {
 }
 
 // 生成一个新的 ID，将用户代码存入数据库并返回 ID
-func SaveCode(code string, t LangType) (string, error) {
+func SaveCode(ctx context.Context, code string, t LangType) (string, error) {
 	url, err := share.NewID()
 	if err != nil {
 		return "", err
 	}
 
-	return url, saveCode(url, code, t)
+	return url, saveCode(ctx, url, code, t)
 }
 
 // 根据用户的分享 ID 获取保存的代码和代码语言类型
-func GetCode(url string) (code string, t LangType, err error) {
+func GetCode(ctx context.Context, url string) (code string, t LangType, err error) {
 	id, err := share.IDtoI(url)
 	if err != nil {
 		log.Printf("分享获取代码ID错误: %s", err.Error())
 		return "", 0, err
 	}
 
-	result := db.QueryRow("SELECT code, type FROM code_share WHERE id = ?", id)
+	result := db.QueryRowContext(ctx, "SELECT code, type FROM code_share WHERE id = ?", id)
 	err = result.Scan(&code, &t)
 	if err != nil {
 		log.Printf("分享获取代码数据库错误: %s", err.Error())
@@ -161,7 +162,7 @@ func SaveCodeHandle(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	url, err := SaveCode(code, langType)
+	url, err := SaveCode(req.Context(), code, langType)
 	if err != nil {
 		log.Printf("保存错误: %s", err.Error())
 		http.Error(w, "服务器错误，稍后尝试", http.StatusInternalServerError)
@@ -181,7 +182,7 @@ func SaveCodeHandle(w http.ResponseWriter, req *http.Request) {
 func GetCodeHandle(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	url := vars["id"]
-	code, t, err := GetCode(url)
+	code, t, err := GetCode(req.Context(), url)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

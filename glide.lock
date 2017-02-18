@@ -1,17 +1,17 @@
 hash: 370e31e95f8ea1a5a5ad479c21dab22136201d18982dae0d8ff266432ec95842
-updated: 2017-01-29T09:39:40.508072781+08:00
+updated: 2017-02-18T15:00:34.63948526+08:00
 imports:
 - name: github.com/Azure/go-ansiterm
   version: fa152c58bc15761d0200cb75fe958b89a9d4888e
   subpackages:
   - winterm
 - name: github.com/docker/distribution
-  version: fb0bebc4b64e3881cc52a2478d749845ed76d2a8
+  version: df5327f76fb6468b84a87771e361762b8be23fdb
   subpackages:
   - digestset
   - reference
 - name: github.com/docker/docker
-  version: 49bf474f9ed7ce7143a59d1964ff7b7fd9b52178
+  version: 092cba3727bb9b4a2f0e922cd6c0f93ea270e363
   subpackages:
   - api/types
   - api/types/blkiodev
@@ -34,7 +34,7 @@ imports:
   - pkg/term/windows
   - pkg/tlsconfig
 - name: github.com/docker/go-connections
-  version: eb315e36415380e7c2fdee175262560ff42359da
+  version: 7da10c8c50cad14494ec818dcdfb6506265c0086
   subpackages:
   - nat
   - sockets
@@ -62,15 +62,15 @@ imports:
   - migrate/direction
   - pipe
 - name: github.com/Microsoft/go-winio
-  version: 307e919c663683a9000576fdc855acaf9534c165
+  version: fff283ad5116362ca252298cfc9b95828956d85d
 - name: github.com/opencontainers/go-digest
-  version: 21dfd564fd89c944783d00d069f33e3e7123c448
+  version: aa2ec055abd10d26d539eb630a92241b781ce4bc
 - name: github.com/pkg/errors
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/Sirupsen/logrus
-  version: 61e43dc76f7ee59a82bdf3d71033dc12bea4c77d
+  version: 7f4b1adc791766938c29457bed0703fb9134421a
 - name: golang.org/x/net
-  version: 4971afdc2f162e82d185353533d3cf16188a9f4e
+  version: b4690f45fa1cafc47b1c280c2e75116efe40cc13
   subpackages:
   - context
   - context/ctxhttp
@@ -79,4 +79,5 @@ imports:
   version: b699b7032584f0953262cb2788a0ca19bb494703
   subpackages:
   - unix
+  - windows
 testImports: []

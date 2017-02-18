@@ -14,7 +14,7 @@ services:
     env_file: ./env
     environment:
       - "DOCKER_HOST=tcp://docker:2375"
-      - "DOCKER_API_VERSION=1.24"
+      - "DOCKER_API_VERSION=1.25"
       - "SHARE_ID_REDIS_ADDR=redis:6379"
       - "DB_ADDR=db:3306"
     restart: always
@@ -22,7 +22,7 @@ services:
 
   docker:
     command: "--storage-driver=overlay --registry-mirror=http://1b30c8e9.m.daocloud.io"
-    image: docker:1.12.6-dind
+    image: docker:1.13.1-dind
     volumes:
           - "/tmp:/tmp:rw"
     privileged: true

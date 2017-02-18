@@ -8,6 +8,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
+	"github.com/docker/docker/api/types/versions"
 )
 
 // ContainerCreator 创建 container
@@ -95,7 +96,7 @@ func (c Container) WriteResultBlock(ctx context.Context, w io.Writer) error {
 }
 
 func (c Container) remove() {
-	if c.ClientVersion() < "1.25" {
+	if versions.LessThan(c.ClientVersion(), "1.25") {
 		err := c.ContainerRemove(context.Background(), c.Id, types.ContainerRemoveOptions{
 			RemoveVolumes: true,
 			Force:         true,
