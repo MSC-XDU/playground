@@ -13,8 +13,9 @@ before_install:
   - mysql -e 'CREATE DATABASE playground;'
 
 env:
-  - SHARE_DB_USER=root
-  - DB_NAME=playground
-  - SHARE_DB_PASSWORD=""
-  - DB_ADDR="localhost:3306"
-  - SHARE_ID_REDIS_ADDR="localhost:6379"
+  global:
+    - SHARE_DB_USER=root
+    - DB_NAME=playground
+    - SHARE_DB_PASSWORD=""
+    - DB_ADDR="localhost:3306"
+    - SHARE_ID_REDIS_ADDR="localhost:6379"
