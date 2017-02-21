@@ -12,6 +12,8 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE playground;'
 
+install: true
+
 env:
   global:
     - SHARE_DB_USER=root
