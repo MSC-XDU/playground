@@ -1,8 +1,6 @@
 package share
 
-import (
-	"testing"
-)
+import "testing"
 
 var idTestCases = [...]struct {
 	num uint64
@@ -28,5 +26,21 @@ func TestIDtoI(t *testing.T) {
 		if num, _ := IDtoI(v.id); num != v.num {
 			t.Fatalf("bad result %d for %s expected %d", num, v.id, v.num)
 		}
+	}
+}
+
+func TestNewID(t *testing.T) {
+	id, err := NewID()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e, err := idExist(id)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !e {
+		t.Fatal("bloom filter false negative")
 	}
 }

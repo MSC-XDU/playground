@@ -222,12 +222,30 @@ func NewID() (string, error) {
 	return ItoID(i)
 }
 
+func idExist(id string) (e bool, err error) {
+	i, err := IDtoI(id)
+	if err != nil {
+		return
+	}
+	b := iToBytes(i)
+	e, err = bloomMightContains(bloomHash(b[:]))
+	return
+}
+
 // 随机 bytes 转化成 uint64。
 // 当随机 bytes 长度改变时注意修改此函数实现
 func bytesToI(raw [randBytes]byte) uint64 {
 	var bytes [4]byte
 	copy(bytes[1:], raw[:])
 	return uint64(binary.BigEndian.Uint32(bytes[:]))
+}
+
+// uint64 转化成随机 bytes
+func iToBytes(id uint64) (bytes [randBytes]byte) {
+	var b [4]byte
+	binary.BigEndian.PutUint32(b[:], uint32(id))
+	copy(bytes[:], b[1:])
+	return
 }
 
 // 将一个 uint64 转化成 ID
@@ -242,10 +260,10 @@ func ItoID(u uint64) (string, error) {
 			return "", errors.New("out of range")
 		}
 		q := u / 62
-		a[i] = digits[u - q*62]
+		a[i] = digits[u-q*62]
 		u = q
 	}
-	return string(a[i + 1:]), nil
+	return string(a[i+1:]), nil
 }
 
 // 将 ID  转化成 uint64

@@ -75,6 +75,7 @@ func ItoLangType(t string) (lt LangType, err error) {
 	case "c", "C":
 		lt = TypeC
 	default:
+		lt = TypeErr
 		err = ErrBadType
 	}
 
