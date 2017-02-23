@@ -90,6 +90,8 @@ func (t LangType) String() string {
 		return "Python"
 	case TypeC:
 		return "C"
+	case TypePy2:
+		return "Python2"
 	default:
 		return ""
 	}
